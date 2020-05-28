@@ -1,13 +1,12 @@
 import unittest
-import selenium
-from selenium import webdriver
+from driver import Driver
 import page
+
 
 class MyTestResult(unittest.TestResult):
     def addFailure(self, test, err):
-        #print(str(test) + ": " + str(err))
         test_name = str(test).split(" ")[0]
-        print(str(test_name) + ": Failed")
+        print(str(test_name) + ": Failed; " + str(err[0]))
         super(MyTestResult, self).addFailure(test, err)
 
     def addError(self, test, err):
@@ -18,10 +17,8 @@ class MyTestResult(unittest.TestResult):
 
 class AllMethodsTests(unittest.TestCase):
     def setUp(self):
-        self.driver = webdriver.Chrome("driver/chromedriver.exe")
-        #self.driver.maximize_window()
-        self.driver.implicitly_wait(10)
-        self.driver.get("http://127.0.0.1:"+page.settings.apiPort+"/api/help")        
+        self.driver = Driver("chrome")
+        self.driver.get("http://127.0.0.1:"+page.settings.apiPort+"/api/help")
         self.main_page = page.MainPage(self.driver)
 
     def test_getSystemInfo(self):        
@@ -321,7 +318,7 @@ class AllMethodsTests(unittest.TestCase):
     def tearDown(self):
         self.main_page.enter_access_token()
         self.main_page.execute()
-        assert self.main_page.no_errors_in_response(), "There is Error in Response"
+        self.assertTrue(self.main_page.no_errors_in_response(), "There is Error in Response")
         self.driver.close()
 
 

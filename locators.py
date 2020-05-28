@@ -1,5 +1,6 @@
 from selenium.webdriver.common.by import By
 
+
 class MainPageLocators(object):
     # links
     lnk_login = (By.PARTIAL_LINK_TEXT, "login")
@@ -116,7 +117,7 @@ class MainPageLocators(object):
     fld_getChannelAvatar_channelid = (By.ID, "getChannelAvatar_channelid")
     fld_setContactGroupContactPublicKey = (By.ID, "setContactGroupContactPublicKey")
     fld_setContactGroupGroupName = (By.ID, "setContactGroupGroupName")
-    fld_setContactNickСontactPublicKey = (By.ID, "setContactNickContactPublicKey")
+    fld_setContactNickContactPublicKey = (By.ID, "setContactNickContactPublicKey")
     fld_setContactNickNewNick = (By.ID, "setContactNickNewNick")
     fld_sendInstantMessageTo = (By.ID, "sendInstantMessageTo")
     fld_sendInstantMessageText = (By.ID, "sendInstantMessageText")
@@ -208,11 +209,11 @@ class MainPageLocators(object):
     fld_getChannelModeratorRight_moderator = (By.ID, "getChannelModeratorRight_moderator")
     fld_unsCreateRecordRequestNick = (By.ID, "unsCreateRecordRequestNick")
     fld_unsCreateRecordRequestValid = (By.ID, "unsCreateRecordRequestValid")
-    fld_unsCreateRecordRequestPrimary = (By.ID, "unsCreateRecordRequestPrimary") # Default value is false
+    fld_unsCreateRecordRequestPrimary = (By.ID, "unsCreateRecordRequestPrimary")  # Default value is false
     fld_unsCreateRecordRequestChannelId = (By.ID, "unsCreateRecordRequestChannelId")
     fld_unsModifyRecordRequestNick = (By.ID, "unsModifyRecordRequestNick")
     fld_unsModifyRecordRequestValid = (By.ID, "unsModifyRecordRequestValid")
-    fld_unsModifyRecordRequestPrimary = (By.ID, "unsModifyRecordRequestPrimary") # Default value is false
+    fld_unsModifyRecordRequestPrimary = (By.ID, "unsModifyRecordRequestPrimary")  # Default value is false
     fld_unsModifyRecordRequestChannelId = (By.ID, "unsModifyRecordRequestChannelId")
     fld_unsDeleteRecordRequestNick = (By.ID, "unsDeleteRecordRequestNick")
     fld_unsSearchByPkFilter = (By.ID, "unsSearchByPkFilter")
@@ -262,7 +263,6 @@ class MainPageLocators(object):
     fld_setWebSocketStatePort = (By.ID, "setWebSocketStatePort")
     fld_getChannelContacts_channelid = (By.ID, "getChannelContacts_channelid")
     fld_token = (By.ID, "token")
-
 
     # select
     slct_setProfileStatusValue = (By.ID, "setProfileStatusValue")

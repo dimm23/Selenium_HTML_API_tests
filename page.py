@@ -2,10 +2,12 @@ from locators import MainPageLocators
 import settings
 import json
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.common.by import By
 from selenium.common import exceptions
 import time
 import pyperclip
 import pyautogui as p
+
 
 class MainPage(object):
     def __init__(self, driver):
@@ -546,16 +548,18 @@ class MainPage(object):
         self.driver.find_element(*MainPageLocators.fld_ucodeDecode_base64_image).send_keys(base64_ucode['result'])
 
     def createChannel(self):
-        self.getChannels() # enshure that channel type is 2 (My channels)
+        self.getChannels()  # ensure that channel type is 2 (My channels)
         self.enter_access_token()
         self.execute()
         my_channels = self.getResponse()
-        if len(my_channels["result"]) == 3:
+        if len(my_channels["result"]) > 8:
             self.deleteChannel()
         try:
             self.driver.find_element(*MainPageLocators.lnk_createChannel).click()
-            self.driver.find_element(*MainPageLocators.fld_createChannel_channel_name).send_keys("autotesting" + str(time.gmtime()))
-            self.driver.find_element(*MainPageLocators.fld_createChannel_description).send_keys("This is channels was created by autotated api test")
+            self.driver.find_element(*MainPageLocators.fld_createChannel_channel_name)\
+                .send_keys("autotesting" + str(time.gmtime()))
+            self.driver.find_element(*MainPageLocators.fld_createChannel_description)\
+                .send_keys("This is channels was created by automated api test")
             self.driver.find_element(*MainPageLocators.fld_createChannel_geoTag).send_keys("33.6373, 44.4690")
             self.driver.find_element(*MainPageLocators.fld_createChannel_hashtags).send_keys("tag1")
             self.driver.find_element(*MainPageLocators.fld_createChannel_languages).send_keys("")
@@ -575,7 +579,7 @@ class MainPage(object):
         self.driver.find_element(*MainPageLocators.fld_modifyChannel_read_only).send_keys("")
 
     def deleteChannel(self):
-        self.getChannels() # enshure that channel type is 2 (My channels)
+        self.getChannels()  # ensure that channel type is 2 (My channels)
         self.enter_access_token()
         self.execute()
         my_channels = self.getResponse()
@@ -634,36 +638,36 @@ class MainPage(object):
 
     def no_errors_in_response(self):
         response = self.getResponse()
-        if (settings.debug):
+        if settings.debug:
             print("***DEBUG: response result: " + str(response["result"]))
-        if not "error" in response:
+        if "Error" not in response:
             return response["result"] != ""                
         else:
-            if (settings.debug):
+            if settings.debug:
                 print("***DEBUG: check errors in response: " + str(response))
             return False
 
     def getResponse(self):
         timer = 10
         res = "error"
-        while (self.driver.find_element(*MainPageLocators.txt_Response).text == "-"):
+        while self.driver.find_element(*MainPageLocators.txt_Response).text == "-":
             if timer != 0:
                 time.sleep(0.5)
                 timer -= 0.5
             else:
                 break
         try:
-            self.driver.find_element(*MainPageLocators.txt_Response).click() # check if response is available
+            self.driver.find_element(*MainPageLocators.txt_Response).click()  # check if response is available
             res = json.loads(self.driver.find_element(*MainPageLocators.txt_Response).text)
         except exceptions.ElementNotVisibleException:       
             raise Exception("Response is not available") from None  
         except json.JSONDecodeError:
-            if (settings.debug):
+            if settings.debug:
                 print("***DEBUG: response: " + str(self.driver.find_element(*MainPageLocators.txt_Response).text))
             raise Exception("Can't read response as JSON") from None
         except Exception:
-            if (settings.debug):
+            if settings.debug:
                 print("***DEBUG: response: " + str(self.driver.find_element(*MainPageLocators.txt_Response).text))
-            raise Exception("unknown exception when read responce") from None        
-        self.driver.refresh() # костыль
+            raise Exception("unknown exception when read response") from None
+        self.driver.refresh()  # костыль
         return res
